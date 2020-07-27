@@ -14,11 +14,10 @@ public class GravityFuckerUpper {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
-        //It initially grabs a "PLACEHOLDER" String
-        String gravityDirection = gravity.getGravityDirection();
-
         if (event.phase == TickEvent.Phase.END) return;
         for (EntityPlayerMP player : FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getPlayerList().getPlayers()) {
+            //It initially grabs a "PLACEHOLDER" String
+            String gravityDirection = gravity.getGravityDirection();
             switch (gravityDirection) {
                 case "UP":
                     API.setPlayerGravity(EnumGravityDirection.UP, player, 20);
