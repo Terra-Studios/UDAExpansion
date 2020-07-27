@@ -10,20 +10,16 @@ import uk.co.mysterymayhem.gravitymod.api.EnumGravityDirection;
 
 
 public class GravityFuckerUpper {
-    //String gravityDirection = new GravityDirectionCommand().getGravityDirection();
-    GravityDirectionCommand gravity = new GravityDirectionCommand();
+    String gravityDirection = new GravityDirectionCommand().getGravityDirection();
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) return;
         for (EntityPlayerMP player : FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getPlayerList().getPlayers()) {
             //It initially grabs a "PLACEHOLDER" String
-
-            String gravityDirection = gravity.getGravityDirection();
             switch (gravityDirection) {
                 case "UP":
                     API.setPlayerGravity(EnumGravityDirection.UP, player, 20);
-                    System.out.println("testing up");
                     break;
                 case "DOWN":
                     API.setPlayerGravity(EnumGravityDirection.DOWN, player, 20);
@@ -40,12 +36,11 @@ public class GravityFuckerUpper {
                 case "WEST":
                     API.setPlayerGravity(EnumGravityDirection.WEST, player, 20);
                     break;
-                case "PLACEHOLDER": // confused why it loops on here...
-                    System.out.println("placetest");
+                case "PLACEHOLDER":
                     break;
                 default:
                     //this likely shouldn't happen
-                    System.out.println("AAAAAA I'm SPAMMING CONSOLE");
+                    System.out.println("AAAAAA I'm SPAMMING CONSOLE, PLEASE REPORT ME");
             }
         }
     }

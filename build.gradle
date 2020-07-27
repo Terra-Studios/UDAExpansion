@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 group = 'com.sebasphere'
-version = '1.0.0'
+version = '1.0.1-ALPHA'
 archivesBaseName = 'UDAExpansions'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
