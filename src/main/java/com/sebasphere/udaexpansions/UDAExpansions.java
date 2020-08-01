@@ -1,30 +1,41 @@
 package com.sebasphere.udaexpansions;
 
-import com.sebasphere.udaexpansions.commands.GravityDirectionCommand;
+import org.apache.logging.log4j.Logger;
+
+import com.sebasphere.udaexpansions.commands.CommandGravityChanger;
 import com.sebasphere.udaexpansions.common.GravityFuckerUpper;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = UDAExpansions.MOD_ID,
         name = UDAExpansions.MOD_NAME,
-        version = UDAExpansions.VERSION
+        version = UDAExpansions.VERSION,
+        acceptedMinecraftVersions = UDAExpansions.ACCEPTED_MC_VERSIONS,
+        dependencies = UDAExpansions.DEPENDENCIES_MODS,
+        modLanguage = "java"
 )
 public class UDAExpansions {
 
     public static final String MOD_ID = "udaexpansions";
     public static final String MOD_NAME = "UDAExpansions";
     public static final String VERSION = "1.0.2-ALPHA";
+	public static final String ACCEPTED_MC_VERSIONS = "[1.12.2]";
+	public static final String ACCEPTED_MC_VERSION  = ForgeVersion.mcVersion;
+	public static final String DEPENDENCIES_MODS    = "required-after:mysttmtgravitymod@[2.9.1,)";
+
 
     /** This is the instance of your mod as created by Forge. It will never be null. */
     @Mod.Instance(MOD_ID)
@@ -55,7 +66,7 @@ public class UDAExpansions {
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
         logger.info("Want a break from the ads???");
-        MinecraftForge.EVENT_BUS.register(new GravityFuckerUpper());
+       MinecraftForge.EVENT_BUS.register(new GravityFuckerUpper());
 
     }
 
@@ -65,22 +76,14 @@ public class UDAExpansions {
      */
     @GameRegistry.ObjectHolder(MOD_ID)
     public static class Blocks {
-      /*
-          public static final MySpecialBlock mySpecialBlock = null; // placeholder for special block below
-      */
-    }
-
-
-    @Mod.EventHandler
-    public void init(FMLServerStartingEvent event) {
-        logger.info("initalise FMLServerStartingEvent :" + MOD_NAME);
-        event.registerServerCommand(new GravityDirectionCommand());
 
     }
 
 
-
-
+    @EventHandler
+    public void onServerStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandGravityChanger());
+    }
 
     /**
      * Forge will automatically look up and bind items to the fields in this class
@@ -88,10 +91,7 @@ public class UDAExpansions {
      */
     @GameRegistry.ObjectHolder(MOD_ID)
     public static class Items {
-      /*
-          public static final ItemBlock mySpecialBlock = null; // itemblock for the block above
-          public static final MySpecialItem mySpecialItem = null; // placeholder for special item below
-      */
+
     }
 
     /**
@@ -102,26 +102,12 @@ public class UDAExpansions {
        /** Listen for the register event for creating custom items */
        @SubscribeEvent
        public static void addItems(RegistryEvent.Register<Item> event) {
-           /*
-             event.getRegistry().register(new ItemBlock(Blocks.myBlock).setRegistryName(MOD_ID, "myBlock"));
-             event.getRegistry().register(new MySpecialItem().setRegistryName(MOD_ID, "mySpecialItem"));
-            */
+
        }
        /** Listen for the register event for creating custom blocks */
        @SubscribeEvent
        public static void addBlocks(RegistryEvent.Register<Block> event) {
-           /*
-             event.getRegistry().register(new MySpecialBlock().setRegistryName(MOD_ID, "mySpecialBlock"));
-            */
+
        }
     }
-    /* EXAMPLE ITEM AND BLOCK - you probably want these in separate files
-    public static class MySpecialItem extends Item {
-
-    }
-
-    public static class MySpecialBlock extends Block {
-
-    }
-    */
 }
