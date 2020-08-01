@@ -3,7 +3,7 @@ package com.sebasphere.udaexpansions;
 import org.apache.logging.log4j.Logger;
 
 import com.sebasphere.udaexpansions.commands.CommandGravityChanger;
-import com.sebasphere.udaexpansions.common.GravityFuckerUpper;
+import com.sebasphere.udaexpansions.common.GravityChanger;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -66,8 +66,13 @@ public class UDAExpansions {
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
         logger.info("Want a break from the ads???");
-       MinecraftForge.EVENT_BUS.register(new GravityFuckerUpper());
+       MinecraftForge.EVENT_BUS.register(new GravityChanger());
 
+    }
+    
+    @EventHandler
+    public void onServerStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandGravityChanger());
     }
 
     /**
@@ -77,12 +82,6 @@ public class UDAExpansions {
     @GameRegistry.ObjectHolder(MOD_ID)
     public static class Blocks {
 
-    }
-
-
-    @EventHandler
-    public void onServerStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandGravityChanger());
     }
 
     /**
