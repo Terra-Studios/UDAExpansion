@@ -1,16 +1,7 @@
 package com.sebasphere.udaexpansions.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableList;
-import com.sebasphere.udaexpansions.common.GravityChanger;
-
+import com.sebasphere.udaexpansions.util.GravityChanger;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,8 +11,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
+import javax.annotation.Nullable;
+import java.util.*;
+
 public class CommandGravityChanger extends CommandBase {
 
+	//ok so I understand depending on the enum called, it implements the interface to turn it into a String
 	enum SubCommand implements IStringSerializable {
 
 		UP("UP"),
@@ -31,6 +26,7 @@ public class CommandGravityChanger extends CommandBase {
 		SOUTH("SOUTH"),
 		WEST("WEST");
 
+		//why does this need to be final? Doesn't final mean the value can't be changed
 		private final String direction;
 
 		SubCommand(String direction) {
@@ -50,12 +46,12 @@ public class CommandGravityChanger extends CommandBase {
 
 	@Override
 	public String getName () {
-		return "gravchange";
+		return "gravityself";
 	}
 
 	@Override
 	public List<String> getAliases () {
-		return ImmutableList.of("derp", "grav");
+		return ImmutableList.of("gravself", "gslf");
 	}
 
 	@Override
@@ -64,12 +60,15 @@ public class CommandGravityChanger extends CommandBase {
 		StringBuilder aliases     = new StringBuilder();
 		subcommands.append(String.join(" | ", getValidArgs()));
 		aliases.append(String.join(" | ", getAliases()));
-		
-		return String
-				.format("%sUsage: %s/%s %s<%s>\n%sCommand Aliases: %s%s", TextFormatting.RED, TextFormatting.AQUA, getName(), TextFormatting.GOLD, subcommands
-						.toString(), TextFormatting.RED, TextFormatting.GREEN, aliases.toString());
+
+		//what????? I don't get what %s or any of that does. (I get it now)
+		//wait oh is it formatting but explain
+		//What does aliases.toString(), wait I get it
+
+		return String.format("%sUsage: %s/%s %s<%s>\n%sCommand Aliases: %s%s", TextFormatting.RED, TextFormatting.AQUA, getName(), TextFormatting.GOLD, subcommands.toString(), TextFormatting.RED, TextFormatting.GREEN, aliases.toString());
 	}
 
+	//overrides CommandBase and called when command is executed. Main method
 	@Override
 	public void execute (MinecraftServer server, ICommandSender sender, String[] args) {
 		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
@@ -77,10 +76,12 @@ public class CommandGravityChanger extends CommandBase {
 			sender.sendMessage(new TextComponentString(getUsage(sender)));
 			return;
 		}
+		//So if the message is not valid? Like "/gravityself AAAAAHELPME" would getUsage() and send to the sender
 		if (!Arrays.stream(getValidArgs()).parallel().anyMatch(args[0]::equalsIgnoreCase)) {
 			sender.sendMessage(new TextComponentString(getUsage(sender)));
 			return;
 		}
+		//help me. Understand that this returns the thing after the lambda if first condition is true
 		if (Arrays.stream(getValidArgs()).parallel().anyMatch(args[0]::equalsIgnoreCase)) {
 			getSubCommand(args[0]).ifPresent(subCommand -> {
 				subCommand.execute(player);
@@ -91,10 +92,10 @@ public class CommandGravityChanger extends CommandBase {
 
 	}
 
+	//What the fuck please help explain the next two methods in some depth
 	private Optional<SubCommand> getSubCommand (String arg) {
 		for (SubCommand subCommand : SubCommand.values())
 			if (subCommand.name().equalsIgnoreCase(arg)) {
-				//gravityDirection = subCommand.name();
 				return Optional.of(subCommand);
 			}
 		return Optional.empty();
@@ -108,6 +109,8 @@ public class CommandGravityChanger extends CommandBase {
 		return Arrays.copyOf(valid.toArray(), valid.size(), String[].class);
 	}
 
+
+	//Ok so this is in charge of completing tab if I'm not mistaken?? I don't understand that return statement except that it's taking in the args of the sender
 	@Override
 	public List<String> getTabCompletions (MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
 		if (args.length == 1)
@@ -116,4 +119,5 @@ public class CommandGravityChanger extends CommandBase {
 		else
 			return ImmutableList.of();
 	}
+
 }
