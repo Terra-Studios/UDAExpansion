@@ -13,10 +13,11 @@ public class GravityChanger {
 
 	@SubscribeEvent
 	public void onServerTick (TickEvent.ServerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END)
-			return;
-		EntityPlayerMP player           = GravityChanger.getPlayer();
-		String         gravityDirection = direction;
+		if (event.phase == TickEvent.Phase.END) return;
+
+		EntityPlayerMP player = GravityChanger.getPlayer();
+		String gravityDirection = direction;
+
 		switch (gravityDirection) {
 		case "UP":
 			API.setPlayerGravity(EnumGravityDirection.UP, player, 20);
@@ -40,7 +41,6 @@ public class GravityChanger {
 			break;
 		default:
 
-			System.out.println("AAAAAA I'm SPAMMING CONSOLE, PLEASE REPORT ME");
 			//}
 		}
 	}
