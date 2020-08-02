@@ -1,4 +1,4 @@
-package com.sebasphere.udaexpansions.util;
+package com.sebasphere.udaexpansions.common;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -41,7 +41,7 @@ public class GravityChanger {
 		default:
 
 			System.out.println("AAAAAA I'm SPAMMING CONSOLE, PLEASE REPORT ME");
-
+			//}
 		}
 	}
 

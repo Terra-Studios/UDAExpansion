@@ -3,7 +3,7 @@ package com.sebasphere.udaexpansions;
 import org.apache.logging.log4j.Logger;
 
 import com.sebasphere.udaexpansions.commands.CommandGravityChanger;
-import com.sebasphere.udaexpansions.util.GravityChanger;
+import com.sebasphere.udaexpansions.common.GravityChanger;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
